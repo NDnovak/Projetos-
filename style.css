@@ -1,0 +1,396 @@
+
+/* =========================
+   1. CONFIGURAÇÕES GERAIS
+========================= */
+
+:root {
+    --fundo: #170916;
+    --rosa: #ff4f87;
+    --rosa-claro: #ffc1d7;
+    --texto: #fff2f7;
+    --texto-suave: #d9b9c8;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    position: relative;
+    padding: 24px;
+
+    font-family: Arial, Helvetica, sans-serif;
+    color: var(--texto);
+
+    background:
+        radial-gradient(
+            circle at 50% 45%,
+            #51203f 0%,
+            #2b1027 35%,
+            var(--fundo) 75%
+        );
+}
+
+/* Luzes suaves no fundo */
+
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.22;
+    pointer-events: none;
+}
+
+body::before {
+    background: #ff2878;
+    top: -150px;
+    left: -100px;
+}
+
+body::after {
+    background: #a52bba;
+    bottom: -160px;
+    right: -100px;
+}
+
+/* =========================
+   2. CARTÃO PRINCIPAL
+========================= */
+
+.cartao {
+    width: min(100%, 460px);
+    position: relative;
+    z-index: 1;
+    text-align: center;
+
+    padding: 44px 28px 34px;
+    border: 1px solid rgba(255, 193, 215, 0.2);
+    border-radius: 28px;
+
+    background: rgba(35, 13, 32, 0.72);
+    backdrop-filter: blur(14px);
+
+    box-shadow:
+        0 20px 80px rgba(0, 0, 0, 0.3),
+        0 0 40px rgba(255, 79, 135, 0.08);
+
+    animation: aparecer 1s ease both;
+}
+
+.etiqueta {
+    display: inline-block;
+    margin-bottom: 20px;
+    color: var(--rosa-claro);
+    font-size: 11px;
+    font-weight: bold;
+    letter-spacing: 3px;
+}
+
+h1 {
+    font-size: clamp(26px, 6vw, 34px);
+    line-height: 1.3;
+    margin-bottom: 15px;
+}
+
+h1 span {
+    display: inline-block;
+    animation: brilho-texto 2s ease-in-out infinite;
+}
+
+.descricao {
+    max-width: 330px;
+    margin: 0 auto;
+    color: var(--texto-suave);
+    font-size: 15px;
+    line-height: 1.8;
+}
+
+/* =========================
+   3. CORAÇÃO INTERATIVO
+========================= */
+
+.coracao {
+    width: 180px;
+    height: 180px;
+    margin: 20px auto 5px;
+
+    display: grid;
+    place-items: center;
+
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    color: #ff376f;
+
+    font-size: 112px;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+
+    filter:
+        drop-shadow(0 0 10px rgba(255, 55, 111, 0.8))
+        drop-shadow(0 0 30px rgba(255, 55, 111, 0.45));
+
+    animation: pulsar 1.15s ease-in-out infinite;
+
+    transition:
+        filter 0.3s ease,
+        transform 0.3s ease;
+}
+
+.coracao span {
+    display: block;
+    line-height: 1;
+    transform-origin: center;
+}
+
+.coracao:hover {
+    filter:
+        drop-shadow(0 0 15px #ff376f)
+        drop-shadow(0 0 45px #ff376f);
+}
+
+.coracao:focus-visible {
+    outline: 2px solid var(--rosa-claro);
+    outline-offset: 5px;
+}
+
+.coracao:active {
+    transform: scale(0.88);
+}
+
+/* Efeito especial ao clicar */
+
+.coracao.explodir span {
+    animation: explosao 0.5s ease;
+}
+
+/* =========================
+   4. TEXTOS E DETALHES
+========================= */
+
+.instrucao {
+    min-height: 24px;
+    color: var(--rosa-claro);
+    font-size: 14px;
+    letter-spacing: 0.5px;
+}
+
+.linha-decorativa {
+    width: 55px;
+    height: 2px;
+    margin: 26px auto 20px;
+    border-radius: 10px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        var(--rosa),
+        transparent
+    );
+}
+
+.rodape {
+    color: #b997a9;
+    font-size: 12px;
+    line-height: 1.7;
+}
+
+/* =========================
+   5. PARTÍCULAS FLUTUANTES
+========================= */
+
+.fundo-particulas {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.particula {
+    position: fixed;
+    left: var(--x);
+    bottom: -40px;
+
+    color: var(--cor);
+    font-size: var(--tamanho);
+
+    opacity: 0;
+    pointer-events: none;
+
+    animation: flutuar var(--duracao) linear forwards;
+}
+
+.mensagem-flutuante {
+    position: fixed;
+    left: 50%;
+    top: 15%;
+    z-index: 5;
+
+    width: max-content;
+    max-width: 90vw;
+
+    color: #fff;
+    font-size: 17px;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 0 0 15px var(--rosa);
+
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, 15px);
+}
+
+.mensagem-flutuante.mostrar {
+    animation: mensagem 1.8s ease forwards;
+}
+
+/* =========================
+   6. ANIMAÇÕES
+========================= */
+
+@keyframes pulsar {
+    0%, 100% {
+        transform: scale(1);
+    }
+
+    15% {
+        transform: scale(1.13);
+    }
+
+    30% {
+        transform: scale(1);
+    }
+
+    45% {
+        transform: scale(1.09);
+    }
+
+    60% {
+        transform: scale(1);
+    }
+}
+
+@keyframes explosao {
+    0% {
+        transform: scale(1);
+    }
+
+    45% {
+        transform: scale(1.45) rotate(-8deg);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes flutuar {
+    0% {
+        opacity: 0;
+        transform: translateY(0) rotate(0deg) scale(0.6);
+    }
+
+    15% {
+        opacity: 0.9;
+    }
+
+    80% {
+        opacity: 0.8;
+    }
+
+    100% {
+        opacity: 0;
+        transform:
+            translateY(-110vh)
+            translateX(var(--desvio))
+            rotate(35deg)
+            scale(1.2);
+    }
+}
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes brilho-texto {
+    0%, 100% {
+        filter: drop-shadow(0 0 2px #ff4f87);
+    }
+
+    50% {
+        filter: drop-shadow(0 0 10px #ff4f87);
+    }
+}
+
+@keyframes mensagem {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, 15px) scale(0.9);
+    }
+
+    20%, 70% {
+        opacity: 1;
+        transform: translate(-50%, 0) scale(1);
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%, -15px) scale(1.05);
+    }
+}
+
+/* =========================
+   7. RESPONSIVIDADE
+========================= */
+
+@media (max-width: 480px) {
+    body {
+        padding: 16px;
+    }
+
+    .cartao {
+        padding: 34px 20px 28px;
+        border-radius: 24px;
+    }
+
+    .coracao {
+        width: 155px;
+        height: 155px;
+        font-size: 96px;
+    }
+
+    .descricao {
+        font-size: 14px;
+    }
+}
+
+/* Respeita quem prefere menos movimento */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+    }
+}
